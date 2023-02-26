@@ -1,0 +1,111 @@
+//
+//  TopBar.swift
+//  UI-Elements-Playground
+//
+//  Created by Michael on 2/20/23.
+//
+
+import SwiftUI
+
+/*
+ Top Bar (02/20/2023)
+ ToDo:
+ (X) A Top Bar that contains a menu button, title, and action button
+ (X) Buttons are dynamic that change icon after clicked
+ (X) Buttons change color if there is an error or alert
+ 
+ Started and completed on 02/20/2023
+ */
+
+//Top bar for an app that has a menu button to the left, title in center, and action button the right
+struct TopBar: View {
+    
+    //MARK: - Temp Params
+    //Colors: Bar color for the background Rect, button alert color for alerts
+    let topBarColor: Color = .indigo
+    let buttonAlertColor: Color = .red
+    
+    //Font for the buttons and the title
+    let topBarTitleFontColor: Color = .white
+    let topBarFont: Font = .system(size: 30)
+    
+    //Text for the title
+    let topBarTitleText: String = "Test Title"
+    
+    //MARK: - Variables
+    @State var menuButtonAlert: Bool = false
+    @State var actionButtonAlert: Bool = false
+    
+    @State var menuButtonPressed: Bool = false
+    @State var actionButtonPressed: Bool = false
+    
+    
+    var body: some View {
+        ZStack {
+            
+            Spacer()
+            
+            //MARK: Background Shape
+                Rectangle()
+                .foregroundColor(topBarColor)
+                    .frame(width: .infinity, height: 50)
+
+            HStack {
+                
+                //MARK: Menu Button
+                Button(action: {
+                    menuButtonAction()
+                }, label: {
+                    Image(systemName: self.menuButtonPressed ? "x.circle" : "list.bullet")
+                })
+                .font(topBarFont)
+                .foregroundColor(self.menuButtonAlert ? buttonAlertColor : topBarTitleFontColor)
+                .padding(.leading)
+                
+                Spacer()
+                
+                //MARK: Title
+                Text(topBarTitleText)
+                    .font(topBarFont)
+                    .foregroundColor(topBarTitleFontColor)
+                
+                Spacer()
+                
+                //MARK: Action Button
+                Button(action: {
+                    actionButtonAction()
+                }, label: {
+                    Image(systemName: self.actionButtonPressed ? "x.circle" : "plus")
+                })
+                .font(topBarFont)
+                .foregroundColor(self.actionButtonAlert ? buttonAlertColor : topBarTitleFontColor)
+                .padding(.trailing)
+            }
+            
+            Spacer()
+            
+        }
+    }
+    
+    //toggles the menu (PLACEHOLDER)
+    func menuButtonAction() {
+        withAnimation(.easeInOut(duration: 0.5)) {
+            self.menuButtonPressed.toggle()
+        }
+    }
+    
+    //action button (as of now it is a plus button)
+    func actionButtonAction() {
+        withAnimation(.easeInOut(duration: 0.5)) {
+            self.actionButtonPressed.toggle()
+            
+        }
+    }
+    
+}
+
+struct TopBar_Previews: PreviewProvider {
+    static var previews: some View {
+        TopBar()
+    }
+}
